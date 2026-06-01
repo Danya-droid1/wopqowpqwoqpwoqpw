@@ -1,10 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-MESSAGE = b'ABCD'           # 4 байта: 0x41, 0x42, 0x43, 0x44
-BIT_RATE = 1e9              # 1 Гбит/с
-TB = 1.0 / BIT_RATE         # 1 нс
-SAMPLES_PER_BIT = 10        # Должно быть чётным для корректной отрисовки Манчестера
+MESSAGE = b'ABCD'
+BIT_RATE = 1e9
+TB = 1.0 / BIT_RATE
+SAMPLES_PER_BIT = 10
 N_BITS = len(MESSAGE) * 8
 
 bits = np.array([int(b) for byte in MESSAGE for b in format(byte, '08b')])
@@ -39,8 +39,8 @@ def ami(b):
             pol *= -1.0
     return sig
 
-dt = TB / SAMPLES_PER_BIT                     # шаг дискретизации
-t_sampled = np.arange(N_BITS * SAMPLES_PER_BIT) * dt  # единая ось времени
+dt = TB / SAMPLES_PER_BIT
+t_sampled = np.arange(N_BITS * SAMPLES_PER_BIT) * dt
 
 sig_nrz_l = np.repeat(nrz_l(bits), SAMPLES_PER_BIT)
 sig_nrz_i = np.repeat(nrz_i(bits), SAMPLES_PER_BIT)
@@ -50,7 +50,7 @@ sig_man   = np.repeat(manchester(bits), SAMPLES_PER_BIT // 2)
 fig, axes = plt.subplots(4, 1, figsize=(12, 9), sharex=True)
 titles = ['NRZ-L', 'NRZ-I', 'Manchester', 'AMI']
 signals = [sig_nrz_l, sig_nrz_i, sig_man, sig_ami]
-t_ns = t_sampled * 1e9  # перевод в наносекунды для наглядности
+t_ns = t_sampled * 1e9
 
 for ax, title, sig in zip(axes, titles, signals):
     ax.step(t_ns, sig, where='post', linewidth=1.5)

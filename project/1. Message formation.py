@@ -26,7 +26,7 @@ def main():
 
     for char in message:
         if char not in encoding_table:
-            print(f"\n⚠️ Ошибка: символ '{char}' отсутствует в таблице кодировки.")
+            print(f"\nОшибка: символ '{char}' отсутствует в таблице кодировки.")
             return
 
         code_val = encoding_table[char]
